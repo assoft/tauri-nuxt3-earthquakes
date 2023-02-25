@@ -1,6 +1,5 @@
 <template>
-  <Body class="dark font-sans">
-    <NuxtLoadingIndicator color="red" />
+  <Body class="dark font-sans relative">
     <div style="padding: 4px; height: calc(100vh - 12px);" data-tauri-drag-region class="select-none">
       <div class="pb-16">
         <ListAfad v-if="source === 'afad'" />
@@ -61,6 +60,10 @@ const frequencies = ref<number[]>([10, 30, 60, 120, 300, 600])
 const setRefreshFrequency = (event: Event) => refreshFrequency.value = event.target.value
 // @ts-ignore
 const setNotifyQuakeSize = (event: Event) => notifyQuakeSize.value = event.target.value
+
+const disableScroll = (event: any) => {
+  // console.log({ event })
+}
 </script>
 
 <style>

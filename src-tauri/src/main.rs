@@ -3,11 +3,9 @@
   windows_subsystem = "windows"
 )]
 
-
-#[cfg(target_os = "macos")]
-use tauri::ActivationPolicy;
 use tauri::{SystemTray, SystemTrayMenu, SystemTrayEvent, Manager};
 use tauri_plugin_positioner::{WindowExt, Position};
+
 #[allow(unused_imports)]
 use window_vibrancy::{apply_vibrancy, apply_blur, NSVisualEffectMaterial, NSVisualEffectState};
 
@@ -39,7 +37,7 @@ fn main() {
     .setup(|app| {
       let window = app.get_window("main").unwrap();
       #[cfg(target_os = "macos")]
-      app.set_activation_policy(ActivationPolicy::Accessory);
+      app.set_activation_policy(tauri::ActivationPolicy::Accessory);
       #[cfg(target_os = "macos")]
       apply_vibrancy(&window, NSVisualEffectMaterial::HudWindow, None, None)
         .expect("Unsupported platform! 'apply_vibrancy' is only supported on macOS");
@@ -72,7 +70,7 @@ fn main() {
       _ => {}
     })
     .on_window_event(|event| match event.event() {
-        // Hide outside click focus
+        // Hide outside click/focus
         tauri::WindowEvent::Focused(is_focused) => {
             if !is_focused {
                 event.window().hide().unwrap();
@@ -103,28 +101,3 @@ fn main() {
     });
     
 }
-
-// fn _toggle_action(app: &AppHandle, id: String) {
-//   match id.as_str() {
-//     "quit" => {
-//       std::process::exit(0);
-//     }
-//     "hide" => {
-//       let window = app.get_window("main").unwrap();
-//       let item_handle = app.tray_handle().get_item(&id);
-//       let is_visible = window.is_visible().unwrap();
-//       match is_visible {
-//           true => {
-//             window.hide().unwrap();
-//             item_handle.set_title("Göster").unwrap()
-//           },
-//           false => {
-//             window.move_window(Position::TrayLeft).unwrap();
-//             window.show().unwrap();
-//             item_handle.set_title("Gizle").unwrap()
-//           }
-//       }
-//     }
-//     _ => {}
-//   }
-// }

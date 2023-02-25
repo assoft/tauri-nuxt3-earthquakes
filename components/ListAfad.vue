@@ -1,9 +1,8 @@
 <template>
     <div v-if="quakes?.length > 0" class="grid">
         <QuakeItem :has-time-zone="true" v-for="quake in sortedQuakes" :key="quake.id" :quake="quake" />
+        <Loading v-if="loading" />
     </div>
-    <!-- <Loading v-if="loading" /> -->
-    <NuxtLoadingIndicator v-if="loading" :throttle="3000" />
 </template>
   
 <script setup lang="ts">
@@ -48,7 +47,7 @@ const fetchLatestQuakes = async () => {
     } else {
         quakes.value = parsed;
     }
-    setTimeout(() => loading.value = false, 2000)
+    setTimeout(() => loading.value = false, 1800)
 }
 
 onMounted(async () => {

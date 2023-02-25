@@ -1,8 +1,8 @@
 <template>
-    <div v-if="quakes?.length > 0" class="block max-w-full">
+    <div v-if="quakes?.length > 0" class="grid">
         <QuakeItem :has-time-zone="false" v-for="quake in sortedQuakes" :key="quake.id" :quake="quake" />
+        <Loading v-if="loading" />
     </div>
-    <Loading v-if="loading" />
 </template>
   
 <script setup lang="ts">
@@ -54,7 +54,7 @@ const fetchLatestQuakes = async () => {
     } else {
         quakes.value = mapped;
     }
-    setTimeout(() => loading.value = false, 2000)
+    setTimeout(() => loading.value = false, 1700)
 }
 
 onMounted(async () => {

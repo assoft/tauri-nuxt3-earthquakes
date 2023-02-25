@@ -7,8 +7,8 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "Quake Tracker App",
-    "version": "0.0.5"
+    "productName": "Earthquakes Tracker",
+    "version": "0.0.1"
   },
   "tauri": {
     "systemTray": {
@@ -35,7 +35,7 @@
     },
     "bundle": {
       "active": true,
-      "category": "DeveloperTool",
+      "category": "Utility",
       "copyright": "",
       "deb": {
         "depends": []
@@ -72,7 +72,7 @@
         "fullscreen": false,
         "height": 600,
         "resizable": false,
-        "title": "Quake Tracker",
+        "title": "Earthquake Tracker",
         "width": 480,
         "center": true,
         "transparent": true,
