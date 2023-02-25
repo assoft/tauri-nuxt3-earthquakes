@@ -1,0 +1,87 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+  "build": {
+    "beforeBuildCommand": "yarn run generate",
+    "beforeDevCommand": "yarn run dev",
+    "devPath": "http://localhost:3000",
+    "distDir": "../dist"
+  },
+  "package": {
+    "productName": "Quake Tracker App",
+    "version": "0.0.5"
+  },
+  "tauri": {
+    "systemTray": {
+      "iconPath": "icons/icon.png",
+      "iconAsTemplate": true,
+      "title": "Quake Tracker"
+    },
+    "allowlist": {
+      "all": false,
+      "notification": {
+        "all": true
+      },
+      "window": {
+        "all": false,
+        "close": false,
+        "hide": false,
+        "show": false,
+        "maximize": false,
+        "minimize": false,
+        "unmaximize": false,
+        "unminimize": false,
+        "startDragging": true
+      }
+    },
+    "bundle": {
+      "active": true,
+      "category": "DeveloperTool",
+      "copyright": "",
+      "deb": {
+        "depends": []
+      },
+      "externalBin": [],
+      "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"],
+      "identifier": "com.assoft.quakes-tracker.dev",
+      "longDescription": "",
+      "macOS": {
+        "entitlements": null,
+        "exceptionDomain": "",
+        "frameworks": [],
+        "providerShortName": null,
+        "signingIdentity": null
+      },
+      "resources": [],
+      "shortDescription": "",
+      "targets": "all",
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": ""
+      }
+    },
+    "macOSPrivateApi": true,
+    "security": {
+      "csp": null
+    },
+    "updater": {
+      "active": false
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "height": 600,
+        "resizable": false,
+        "title": "Quake Tracker",
+        "width": 480,
+        "center": true,
+        "transparent": true,
+        "alwaysOnTop": true,
+        "hiddenTitle": true,
+        "titleBarStyle": "Transparent",
+        "decorations": false,
+        "visible": false
+      }
+    ]
+  }
+}
