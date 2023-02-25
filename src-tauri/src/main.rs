@@ -35,6 +35,7 @@ fn main() {
     .plugin(tauri_plugin_positioner::init())
     .setup(|app| {
       let window = app.get_window("main").unwrap();
+      #[cfg(target_os = "macos")]
       app.set_activation_policy(tauri::ActivationPolicy::Accessory);
       #[cfg(target_os = "macos")]
       apply_vibrancy(&window, NSVisualEffectMaterial::HudWindow, None, None)
