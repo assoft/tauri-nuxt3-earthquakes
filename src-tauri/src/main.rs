@@ -3,6 +3,9 @@
   windows_subsystem = "windows"
 )]
 
+
+#[cfg(target_os = "macos")]
+use tauri::ActivationPolicy;
 use tauri::{SystemTray, SystemTrayMenu, SystemTrayEvent, Manager};
 use tauri_plugin_positioner::{WindowExt, Position};
 #[allow(unused_imports)]
@@ -36,7 +39,7 @@ fn main() {
     .setup(|app| {
       let window = app.get_window("main").unwrap();
       #[cfg(target_os = "macos")]
-      app.set_activation_policy(tauri::ActivationPolicy::Accessory);
+      app.set_activation_policy(ActivationPolicy::Accessory);
       #[cfg(target_os = "macos")]
       apply_vibrancy(&window, NSVisualEffectMaterial::HudWindow, None, None)
         .expect("Unsupported platform! 'apply_vibrancy' is only supported on macOS");
