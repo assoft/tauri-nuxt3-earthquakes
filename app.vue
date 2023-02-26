@@ -2,22 +2,15 @@
   <Body class="dark font-sans relative">
     <div style="padding: 4px; height: calc(100vh - 12px);" data-tauri-drag-region class="select-none">
       <div class="pb-16">
-        <ListAfad v-if="source === 'afad'" />
-        <ListKandilli v-else />
+        <NuxtPage />
       </div>
 
       <div class="fixed bottom-0 inset-x-0 select-none">
         <div class="flex items-center justify-between bg-dark-3 p-2 dark:text-white select-none">
-          <div class="flex items-center justify-center gap-4">
-            <div class="inline-flex items-center gap-1">
-              <input class="w-6 h-6 text-red" type="radio" id="afad" name="source" v-model="source" value="afad"
-                     checked>
-              <label class="text-sm" for="afad">Afad</label>
-            </div>
-            <div class="inline-flex items-center gap-1">
-              <input class="w-6 h-6 text-amber" type="radio" id="kandilli" name="source" v-model="source" value="kandilli">
-              <label class="text-sm" for="kandilli">Kandilli</label>
-            </div>
+
+          <div class="flex items-center justify-center gap-2">
+            <NuxtLink class="decoration-none text-white px-1.5 py-1 rounded" exact-active-class="bg-white/20" to="/">Afad</NuxtLink>
+            <NuxtLink class="decoration-none text-white px-1.5 py-1 rounded" exact-active-class="bg-white/20" to="/kandilli">Kandilli</NuxtLink>
           </div>
 
           <div class="inline-flex items-center gap-1">
@@ -51,7 +44,7 @@
 <script setup lang="ts">
 import { invoke } from '@tauri-apps/api';
 
-const source = useState<string>('activeSource', () => 'afad');
+// const source = useState<string>('activeSource', () => 'afad');
 const refreshFrequency = useState<number>('refreshFrequency', () => 60);
 const notifyQuakeSize = useState<number>('notifyQuakeSize', () => 3);
 const frequencies = ref<number[]>([10, 30, 60, 120, 300, 600])
@@ -60,10 +53,6 @@ const frequencies = ref<number[]>([10, 30, 60, 120, 300, 600])
 const setRefreshFrequency = (event: Event) => refreshFrequency.value = event.target.value
 // @ts-ignore
 const setNotifyQuakeSize = (event: Event) => notifyQuakeSize.value = event.target.value
-
-const disableScroll = (event: any) => {
-  // console.log({ event })
-}
 </script>
 
 <style>
