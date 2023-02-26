@@ -8,9 +8,9 @@
       <div class="fixed bottom-0 inset-x-0 select-none">
         <div class="flex items-center justify-between bg-dark-3 p-2 dark:text-white select-none">
 
-          <div class="flex items-center justify-center gap-2">
-            <NuxtLink class="decoration-none text-white px-1.5 py-1 rounded" exact-active-class="bg-white/20" to="/">Afad</NuxtLink>
-            <NuxtLink class="decoration-none text-white px-1.5 py-1 rounded" exact-active-class="bg-white/20" to="/kandilli">Kandilli</NuxtLink>
+          <div class="flex items-center justify-center gap-2 ml-2">
+            <NuxtLink class="decoration-none text-white px-1.5 py-1 rounded text-sm" exact-active-class="bg-white/20" to="/">Afad</NuxtLink>
+            <NuxtLink class="decoration-none text-white px-1.5 py-1 rounded text-sm" exact-active-class="bg-white/20" to="/kandilli">Kandilli</NuxtLink>
           </div>
 
           <div class="inline-flex items-center gap-1">
@@ -22,10 +22,8 @@
 
           <div class="inline-flex items-center gap-1">
             <div class="text-xs">Yenileme Sıklığı</div>
-            <select class="bg-dark appearance-none text-white border-none p-2 text-sm" @change="setRefreshFrequency" value="60">
-              <option v-for="frequency in frequencies" :value="frequency" :key="`frequency_${frequency}`">{{ frequency <= 60 ? frequency : frequency / 60 }} {{
-                frequency <= 60 ? 'sn' : 'dk'
-              }}</option>
+            <select class="bg-dark appearance-none text-white border-none p-2 text-sm" @change="setRefreshFrequency" value="5">
+              <option v-for="frequency in frequencies" :value="frequency" :key="`frequency_${frequency}`">{{ frequency }} dk</option>
             </select>
           </div>
 
@@ -45,14 +43,26 @@
 import { invoke } from '@tauri-apps/api';
 
 // const source = useState<string>('activeSource', () => 'afad');
-const refreshFrequency = useState<number>('refreshFrequency', () => 60);
+const refreshFrequency = useState<number>('refreshFrequency', () => 5);
 const notifyQuakeSize = useState<number>('notifyQuakeSize', () => 3);
-const frequencies = ref<number[]>([10, 30, 60, 120, 300, 600])
+const frequencies = ref<number[]>([1, 2, 3, 4, 5, 10, 30])
 
 // @ts-ignore
 const setRefreshFrequency = (event: Event) => refreshFrequency.value = event.target.value
 // @ts-ignore
 const setNotifyQuakeSize = (event: Event) => notifyQuakeSize.value = event.target.value
+
+onNuxtReady(() => {
+  if (window.location.protocol !== 'tauri:') {
+    return
+  }
+  window.addEventListener('contextmenu', e => {
+    e.preventDefault();
+    return false;
+  }, { capture: true })
+})
+
+// onMounted(() => {})
 </script>
 
 <style>

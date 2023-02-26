@@ -50,7 +50,7 @@ const fetchLatestQuakesFromAfad = async () => {
 
 const { resume, pause } = useIntervalFn(() => {
     fetchLatestQuakesFromAfad()
-}, () => refreshFrequency.value * 1000)
+}, () => (refreshFrequency.value * 60) * 1000)
 
 onMounted(async () => {
     quakes.value = await fecthLatestFiftyEvents();

@@ -61,7 +61,7 @@ const fetchLatestQuakesFromKandilli = async () => {
 
 const { resume, pause } = useIntervalFn(() => {
     fetchLatestQuakesFromKandilli()
-}, () => refreshFrequency.value * 1000)
+}, () => (refreshFrequency.value * 60) * 1000)
 
 onMounted(() => {
     fetchLatestQuakesFromKandilli()
