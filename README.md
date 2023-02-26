@@ -9,8 +9,8 @@
 - Yenileme sıklığı özelleştirilebilir.
 
 ## Uygulama
-- [Windows x64](https://github.com/assoft/tauri-nuxt3-earthquakes/releases/download/v0.0.4/Earthquakes.Tracker_0.0.1_x64_en-US.msi)
-- [MacOS](https://github.com/assoft/tauri-nuxt3-earthquakes/releases/download/v0.0.4/Earthquakes.Tracker_0.0.1_x64.dmg)
+- [Windows x64](https://github.com/assoft/tauri-nuxt3-earthquakes/releases/download/v0.0.5/Earthquakes.Tracker_0.0.1_x64_en-US.msi)
+- [MacOS](https://github.com/assoft/tauri-nuxt3-earthquakes/releases/download/v0.0.5/Earthquakes.Tracker_0.0.1_x64.dmg)
 
 <div align="center">
     <img src="./screenshot.png" width="400px"</img> 
