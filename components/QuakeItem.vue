@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="absolute right-0 inset-y-0 grid place-items-center w-16" :class="[`color-${color}`]">
-                <div class="text-lg text-white mx-4" v-text="renderQuake.magnitude"></div>
+                <div class="text-lg text-white mx-4" v-text="Number(renderQuake.magnitude)"></div>
             </div>
         </div>
     </div>
@@ -40,16 +40,15 @@ const renderQuake = computed(() => {
 
 const color = computed(() => {
     if (Number(props.quake.magnitude) <= 2.9)
-        return 'blue'
-    if (Number(props.quake.magnitude) > 2.9)
-        return 'green'
-    if (Number(props.quake.magnitude) > 3.9)
-        return 'yellow'
-    if (Number(props.quake.magnitude) > 4.9)
-        return 'orange'
-    if (Number(props.quake.magnitude) > 5.9)
-        return 'red'
-    return 'gray'
+        return 'blue';
+    else if (Number(props.quake.magnitude) <= 3.9)
+        return 'green';
+    else if (Number(props.quake.magnitude) <= 4.9)
+        return 'yellow';
+    else if (Number(props.quake.magnitude) <= 5.9)
+        return 'orange';
+    else
+        return 'red';
 })
 </script>
 
@@ -63,14 +62,14 @@ const color = computed(() => {
 }
 
 .color-yellow {
-    background-color: #F2C94C;
+    background-color: #ffbf00;
 }
 
 .color-orange {
-    background-color: #F2994A
+    background-color: #ff7700
 }
 
 .color-red {
-    background-color: #EB5757
+    background-color: #dc0000
 }
 </style>
