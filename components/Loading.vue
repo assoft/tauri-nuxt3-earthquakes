@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed bottom-12.5 inset-x-0 z-999999999">
+    <div class="fixed bottom-21.2 inset-x-0 z-999999999">
         <div class="loader"></div>
     </div>
 </template>

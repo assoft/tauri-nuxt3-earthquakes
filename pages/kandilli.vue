@@ -1,9 +1,13 @@
 <template>
-    <div class="grid">
-        <template v-if="quakes?.length > 0">
-            <QuakeItem :has-time-zone="false" v-for="quake in sortedQuakes" :key="quake.id" :quake="quake" />
-        </template>
+    <div v-if="filtered?.length > 0" class="grid p-2">
+        <QuakeItem :has-time-zone="false" v-for="quake in filtered" :key="quake.id" :quake="quake" />
         <Loading v-if="loading" />
+    </div>
+    <div v-if="quakes.length > 0 && filtered?.length < 1" class="w-full h-[calc(100vh-80px)] grid place-items-center">
+        <span class="bg-amber-500 p-2 rounded text-white text-shadow">Arama kriterine uyan kayıt bulunamadı!</span>
+    </div>
+    <div v-if="quakes.length < 1" class="w-full h-[calc(100vh-80px)] grid place-items-center">
+        <span class="text-white text-shadow">Yükleniyor...</span>
     </div>
 </template>
   
@@ -19,10 +23,15 @@ const loading = ref<boolean>(false);
 
 const refreshFrequency = useState<number>('refreshFrequency')
 const notifyQuakeSize = useState<number>('notifyQuakeSize')
+const filterLocation = useState<string>('filterLocation')
+
 const router = useRouter();
 
-// @ts-ignore
-const sortedQuakes = computed(() => quakes.value.sort((a: PIQuake, b: PIQuake) => a.eventDate < b.eventDate))
+const filtered = computed<PIQuake[]>(() => {
+    return quakes.value
+        .filter((quake: PIQuake) => quake.location.includes(filterLocation.value))
+        .sort((a: PIQuake, b: PIQuake) => b.eventDate.toLocaleString().localeCompare(a.eventDate.toLocaleString()))
+})
 
 const fetchLatestQuakesFromKandilli = async () => {
     if (router.currentRoute.value.name === 'kandilli') {
@@ -56,7 +65,6 @@ const fetchLatestQuakesFromKandilli = async () => {
         }
         setTimeout(() => loading.value = false, 1700)
     }
-
 }
 
 const { resume, pause } = useIntervalFn(() => {

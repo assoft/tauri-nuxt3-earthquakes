@@ -2,4 +2,5 @@
 export default defineNuxtConfig({
   ssr: false,
   modules: ['@unocss/nuxt', '@vueuse/nuxt'],
+  css: ['@unocss/reset/tailwind-compat.css'],
 })
