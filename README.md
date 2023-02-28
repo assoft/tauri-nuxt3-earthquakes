@@ -1,7 +1,9 @@
-# Afad ve Kandilli Rasathanesi Son Depremler Uygulaması (crossplatform)
+# Afad ve Kandilli Rasathanesi Son Depremler Uygulaması (Win/MacOS)
 
-- Frontend: Nuxt 3
-- Backend: Rust (Tauri)
+- Stack
+    - Tauri (Rust)
+    - Nuxt 3 (Vue/Typescript)
+    - Unocss
 
 ## Özellikler
 
@@ -11,7 +13,7 @@
 ## Uygulama
 - [Windows x64](https://github.com/assoft/tauri-nuxt3-earthquakes/releases/download/v0.0.5/Earthquakes.Tracker_0.0.1_x64_en-US.msi)
 - [MacOS](https://github.com/assoft/tauri-nuxt3-earthquakes/releases/download/v0.0.5/Earthquakes.Tracker_0.0.1_x64.dmg)
-
+- Linux Build [planlanıyor...]
 <div align="center">
     <img src="./screenshot.png" width="400px"</img> 
 </div>
