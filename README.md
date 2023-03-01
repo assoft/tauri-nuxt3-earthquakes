@@ -18,7 +18,7 @@
     <img src="./screenshot.png" width="400px"</img> 
 </div>
 
-# Develoment
+# Development
 
 ## Setup
 
