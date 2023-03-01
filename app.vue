@@ -24,7 +24,7 @@
 
             <div class="inline-flex items-center gap-2">
               <div class="text-xs">Bildir</div>
-              <select class="bg-dark appearance-none text-white border-none p-2 text-sm" @change="() => setNotifyQuakeSize" value="3"
+              <select class="bg-dark appearance-none text-white border-none p-2 text-sm" @change="setNotifyQuakeSize" value="4"
                       title="Deprem Bildirim Seçenekleri">
                 <option v-for="size in [2, 3, 4, 5, 6]" :value="size" :key="`size_${size}`"> >= {{ size }}</option>
               </select>
@@ -32,7 +32,7 @@
 
             <div class="inline-flex items-center gap-2">
               <div class="text-xs">Yenileme Sıklığı</div>
-              <select class="bg-dark appearance-none text-white border-none p-2 text-sm" @change="() => setRefreshFrequency" value="5">
+              <select class="bg-dark appearance-none text-white border-none p-2 text-sm" @change="setRefreshFrequency" value="5">
                 <option v-for="frequency in frequencies" :value="frequency" :key="`frequency_${frequency}`">{{ frequency }} dk</option>
               </select>
             </div>
@@ -54,10 +54,10 @@
 import { invoke } from '@tauri-apps/api';
 
 const refreshFrequency = useState<number>('refreshFrequency', () => 5);
-const notifyQuakeSize = useState<number>('notifyQuakeSize', () => 3);
+const notifyQuakeSize = useState<number>('notifyQuakeSize', () => 4);
 const filterLocation = useState<string>('filterLocation', () => "")
 
-const frequencies = ref<number[]>([1, 2, 3, 4, 5, 10, 30])
+const frequencies = ref<number[]>([2, 3, 4, 5, 10, 30])
 
 const setRefreshFrequency = (event: Event & { target: HTMLInputElement }) => refreshFrequency.value = Number(event.target.value)
 const setNotifyQuakeSize = (event: Event & { target: HTMLInputElement }) => notifyQuakeSize.value = Number(event.target.value)
@@ -71,8 +71,6 @@ onNuxtReady(() => {
     return false;
   }, { capture: true })
 })
-
-// onMounted(() => {})
 </script>
 
 <style>

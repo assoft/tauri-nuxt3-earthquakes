@@ -1,13 +1,15 @@
 <template>
-    <div v-if="filtered?.length > 0" class="grid p-2">
-        <QuakeItem :has-time-zone="false" v-for="quake in filtered" :key="quake.id" :quake="quake" />
+    <div>
         <Loading v-if="loading" />
-    </div>
-    <div v-if="quakes.length > 0 && filtered?.length < 1" class="w-full h-[calc(100vh-80px)] grid place-items-center">
-        <span class="bg-amber-500 p-2 rounded text-white text-shadow">Arama kriterine uyan kayıt bulunamadı!</span>
-    </div>
-    <div v-if="quakes.length < 1" class="w-full h-[calc(100vh-80px)] grid place-items-center">
-        <span class="text-white text-shadow">Yükleniyor...</span>
+        <div v-if="filtered?.length > 0" class="grid p-2">
+            <QuakeItem :has-time-zone="false" v-for="quake in filtered" :key="quake.id" :quake="quake" />
+        </div>
+        <div v-if="quakes.length > 0 && filtered?.length < 1" class="w-full h-[calc(100vh-80px)] grid place-items-center">
+            <span class="bg-amber-500 p-2 rounded text-white text-shadow">Arama kriterine uyan kayıt bulunamadı!</span>
+        </div>
+        <div v-if="quakes.length < 1" class="w-full h-[calc(100vh-80px)] grid place-items-center">
+            <span class="text-white text-shadow">Yükleniyor...</span>
+        </div>
     </div>
 </template>
   
@@ -55,7 +57,7 @@ const fetchLatestQuakesFromKandilli = async () => {
                 const filtered = quakes.value.find((x: PIQuake) => x.id === quake.id)
                 if (!filtered) {
                     if (quake.magnitude >= notifyQuakeSize.value) {
-                        await pushMessage({ title: `Kandilli Rasathanesi`, body: `${quake.location}: ${quake.magnitude} [${quake.depth}km]` });
+                        await pushMessage({ title: `Kandilli Rasathanesi: ${String(quake.eventDate).split(" ")[1]}`, body: `${quake.location}: ${quake.magnitude} [${quake.depth}km]` });
                     }
                     quakes.value.push(quake)
                 }
@@ -63,7 +65,7 @@ const fetchLatestQuakesFromKandilli = async () => {
         } else {
             quakes.value = mapped;
         }
-        setTimeout(() => loading.value = false, 1700)
+        setTimeout(() => loading.value = false, 700)
     }
 }
 
@@ -73,8 +75,5 @@ const { resume, pause } = useIntervalFn(() => {
 
 onMounted(() => {
     fetchLatestQuakesFromKandilli()
-    resume()
 })
-
-onUnmounted(() => pause())
 </script>

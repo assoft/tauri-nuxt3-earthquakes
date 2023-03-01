@@ -1,19 +1,22 @@
 <template>
-    <div v-if="filtered?.length > 0" class="grid p-2">
-        <QuakeItem :has-time-zone="true" v-for="quake in filtered" :key="quake.id" :quake="quake" />
+    <div>
         <Loading v-if="loading" />
-    </div>
-    <div v-if="quakes.length > 0 && filtered?.length < 1" class="w-full h-[calc(100vh-80px)] grid place-items-center">
-        <span class="bg-amber-500 p-2 rounded text-white text-shadow">Arama kriterine uyan kayıt bulunamadı!</span>
-    </div>
-    <div v-if="quakes.length < 1" class="w-full h-[calc(100vh-80px)] grid place-items-center">
-        <span class="text-white text-shadow">Yükleniyor...</span>
+        <div v-if="filtered?.length > 0" class="grid p-2">
+            <QuakeItem :has-time-zone="true" v-for="quake in filtered" :key="quake.id" :quake="quake" />
+        </div>
+        <div v-if="quakes.length > 0 && filtered?.length < 1" class="w-full h-[calc(100vh-80px)] grid place-items-center">
+            <span class="bg-amber-500 p-2 rounded text-white text-shadow">Arama kriterine uyan kayıt bulunamadı!</span>
+        </div>
+        <div v-if="quakes.length < 1" class="w-full h-[calc(100vh-80px)] grid place-items-center">
+            <span class="text-white text-shadow">Yükleniyor...</span>
+        </div>
     </div>
 </template>
   
 <script setup lang="ts">
 import { invoke } from "@tauri-apps/api"
 import type { IQuake } from "@/types"
+import { DateTime } from "luxon";
 
 const router = useRouter();
 
@@ -46,7 +49,8 @@ const fetchLatestQuakesFromAfad = async () => {
                 const filtered = quakes.value.find(x => x.id === quake.id)
                 if (!filtered) {
                     if (quake.magnitude >= notifyQuakeSize.value) {
-                        await pushMessage({ title: `Afad Deprem Merkezi`, body: `${quake.location}: ${quake.magnitude} [${quake.depth}km]` });
+                        let date = DateTime.fromISO(String(quake.eventDate), { setZone: true, locale: "tr-TR", zone: "utc" }).setZone("utc+3").toISOTime({ includeOffset: false, suppressMilliseconds: true })
+                        await pushMessage({ title: `Afad Deprem Merkezi: ${date}`, body: `${quake.location}: ${quake.magnitude} [${quake.depth}km]` });
                     }
                     quakes.value.push(quake)
                 }
@@ -54,7 +58,7 @@ const fetchLatestQuakesFromAfad = async () => {
         } else {
             quakes.value = parsed;
         }
-        setTimeout(() => loading.value = false, 1800)
+        setTimeout(() => loading.value = false, 800)
     }
 }
 
@@ -64,9 +68,5 @@ const { resume, pause } = useIntervalFn(() => {
 
 onMounted(async () => {
     quakes.value = await fecthLatestFiftyEvents();
-    resume();
 })
-
-watchEffect(() => resume())
-onUnmounted(() => pause())
 </script>
