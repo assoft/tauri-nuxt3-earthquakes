@@ -7,7 +7,10 @@
             <div class="flex-1 grid py-2 px-3 gap-1 pr-16 sm:pr-0">
                 <div class="text-white text-sm">{{ renderQuake.location }}</div>
                 <div class="inline-flex items-center gap-2 text-sm">
-                    <div class="font-medium text-white/60" v-text="renderQuake.eventDate"></div>
+                    <div class="inline-flex gap-1">
+                        <div class="font-medium text-white/60" v-text="renderQuake.eventDate"></div>
+                        <div class="font-medium text-white/60" v-text="renderQuake.eventTime"></div>
+                    </div>
                     <div class="bg-amber-400 rounded px-1" v-text="renderQuake.depth"></div>
                 </div>
             </div>
@@ -34,7 +37,8 @@ const renderQuake = computed(() => {
         location: props.quake.location,
         magnitude: props.quake.magnitude,
         depth: props.quake.depth?.toFixed(0).toString() + ' km',
-        eventDate: props.hasTimeZone ? DateTime.fromISO(String(props.quake.eventDate), { setZone: true, locale: "tr-TR", zone: "utc" }).setZone("utc+3").toISOTime({ includeOffset: false, suppressMilliseconds: true }) : String(props.quake.eventDate).split(" ")[1]
+        eventDate: props.hasTimeZone ? DateTime.fromISO(String(props.quake.eventDate), { setZone: true, locale: "tr-TR", zone: "utc" }).setZone("utc+3").toFormat("yyyy.MM.dd", { locale: "tr-TR" }) : String(props.quake.eventDate).split(" ")[0],
+        eventTime: props.hasTimeZone ? DateTime.fromISO(String(props.quake.eventDate), { setZone: true, locale: "tr-TR", zone: "utc" }).setZone("utc+3").toISOTime({ includeOffset: false, suppressMilliseconds: true }) : String(props.quake.eventDate).split(" ")[1]
     }
 })
 
