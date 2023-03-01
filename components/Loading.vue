@@ -23,7 +23,7 @@
     top: 0;
     left: 0;
     box-sizing: border-box;
-    animation: animloader 2s linear infinite;
+    animation: animloader 1s linear infinite;
 }
 
 @keyframes animloader {
