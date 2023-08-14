@@ -27,10 +27,16 @@ const loading = ref<boolean>(false);
 const refreshFrequency = useState<number>('refreshFrequency')
 const notifyQuakeSize = useState<number>('notifyQuakeSize')
 const filterLocation = useState<string>('filterLocation')
+const filterMagnitude = useState<string>('filterMagnitude')
 
 const filtered = computed<IQuake[]>(() => {
     return quakes.value
         .filter((quake: IQuake) => quake.location.includes(filterLocation.value))
+        .filter((quake: IQuake) => {
+            if (filterMagnitude.value.length > 0) {
+                return quake.magnitude >= Number(filterMagnitude.value)
+            }
+        })
         .sort((a: IQuake, b: IQuake) => b.eventDate.toLocaleString().localeCompare(a.eventDate.toLocaleString()))
 })
 

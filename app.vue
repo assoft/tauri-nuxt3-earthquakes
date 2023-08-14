@@ -7,26 +7,36 @@
 
       <div class="fixed bottom-0 inset-x-0 select-none">
         <div class="flex flex-col gap-2 bg-dark-3 px-4 py-2 dark:text-white">
-          <div class="mt-1 inline-flex items-center gap-2 w-full">
-            <input type="text"
-                   placeholder="Konumlarda ara"
-                   @keyup="($event) => filterLocation = $event.target?.value"
-                   class="w-full bg-transparent border-white/20 focus:border-white/40 outline-none focus:ring-3 focus:ring-[#224d9b] focus:outline-none focus:border-transparent focus-visible:border-red border-1 py-1.5 px-2 rounded text-sm leading-2 text-white placeholder:text-white/20">
+          <div class="flex items-center gap-4">
+            <div class="shrink-0">
+              <div class="flex items-center justify-center gap-2 h-8">
+                <NuxtLink class="select-none decoration-none text-white px-1.5 py-0.6 rounded text-sm" exact-active-class="bg-white/20" to="/">Afad</NuxtLink>
+                <NuxtLink class="select-none decoration-none text-white px-1.5 py-0.6 rounded text-sm" exact-active-class="bg-white/20" to="/kandilli">Kandilli
+                </NuxtLink>
+              </div>
+            </div>
+            <div class="mt-1 inline-flex items-center gap-2 flex-1">
+              <input type="text"
+                     placeholder="Konumlarda ara"
+                     @keyup="($event) => filterLocation = $event.target?.value"
+                     class="w-full bg-transparent border-white/20 focus:border-white/40 outline-none focus:ring-3 focus:ring-[#224d9b] focus:outline-none focus:border-transparent focus-visible:border-red border-1 py-1.5 px-2 rounded text-sm leading-2 text-white placeholder:text-white/20">
+            </div>
           </div>
 
           <div class="flex items-center justify-start w-full select-none gap-4">
-
-            <div class="flex items-center justify-center gap-2">
-              <NuxtLink class="select-none decoration-none text-white px-1.5 py-1 rounded text-sm" exact-active-class="bg-white/20" to="/">Afad</NuxtLink>
-              <NuxtLink class="select-none decoration-none text-white px-1.5 py-1 rounded text-sm" exact-active-class="bg-white/20" to="/kandilli">Kandilli
-              </NuxtLink>
-            </div>
-
             <div class="inline-flex items-center gap-2">
               <div class="text-xs">Bildir</div>
               <select class="bg-dark appearance-none text-white border-none p-2 text-sm" @change="setNotifyQuakeSize" value="4"
                       title="Deprem Bildirim Seçenekleri">
                 <option v-for="size in [2, 3, 4, 5, 6]" :value="size" :key="`size_${size}`"> >= {{ size }}</option>
+              </select>
+            </div>
+
+            <div class="inline-flex items-center gap-2">
+              <div class="text-xs">Şiddet</div>
+              <select class="bg-dark appearance-none text-white border-none p-2 text-sm" @change="setFilterMagnitude" value="0"
+                      title="Şiddetine Göre">
+                <option v-for="size in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]" :value="size" :key="`size_${size}`"> {{ size >= 1 ? ">= " + size : "Tümü" }}</option>
               </select>
             </div>
 
@@ -56,11 +66,13 @@ import { invoke } from '@tauri-apps/api';
 const refreshFrequency = useState<number>('refreshFrequency', () => 5);
 const notifyQuakeSize = useState<number>('notifyQuakeSize', () => 4);
 const filterLocation = useState<string>('filterLocation', () => "")
+const filterMagnitude = useState<string>('filterMagnitude', () => "0")
 
 const frequencies = ref<number[]>([2, 3, 4, 5, 10, 30])
 
 const setRefreshFrequency = (event: Event & { target: HTMLInputElement }) => refreshFrequency.value = Number(event.target.value)
 const setNotifyQuakeSize = (event: Event & { target: HTMLInputElement }) => notifyQuakeSize.value = Number(event.target.value)
+const setFilterMagnitude = (event: Event & { target: HTMLInputElement }) => filterMagnitude.value = event.target.value
 
 onNuxtReady(() => {
   if (window.location.protocol !== 'tauri:') {
