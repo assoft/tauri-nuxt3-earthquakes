@@ -26,12 +26,18 @@ const loading = ref<boolean>(false);
 const refreshFrequency = useState<number>('refreshFrequency')
 const notifyQuakeSize = useState<number>('notifyQuakeSize')
 const filterLocation = useState<string>('filterLocation')
+const filterMagnitude = useState<string>('filterMagnitude', () => "0")
 
 const router = useRouter();
 
 const filtered = computed<PIQuake[]>(() => {
     return quakes.value
         .filter((quake: PIQuake) => quake.location.includes(filterLocation.value))
+        .filter((quake: PIQuake) => {
+            if (filterMagnitude.value.length > 0) {
+                return quake.magnitude >= Number(filterMagnitude.value)
+            }
+        })
         .sort((a: PIQuake, b: PIQuake) => b.eventDate.toLocaleString().localeCompare(a.eventDate.toLocaleString()))
 })
 

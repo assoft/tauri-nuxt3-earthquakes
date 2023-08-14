@@ -34,7 +34,7 @@
 
             <div class="inline-flex items-center gap-2">
               <div class="text-xs">Şiddet</div>
-              <select class="bg-dark appearance-none text-white border-none p-2 text-sm" @change="setFilterMagnitude" value="0"
+              <select ref="selectMagnitudeRef" class="bg-dark appearance-none text-white border-none p-2 text-sm" @change="setFilterMagnitude" value="0"
                       title="Şiddetine Göre">
                 <option v-for="size in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]" :value="size" :key="`size_${size}`"> {{ size >= 1 ? ">= " + size : "Tümü" }}</option>
               </select>
@@ -74,6 +74,8 @@ const setRefreshFrequency = (event: Event & { target: HTMLInputElement }) => ref
 const setNotifyQuakeSize = (event: Event & { target: HTMLInputElement }) => notifyQuakeSize.value = Number(event.target.value)
 const setFilterMagnitude = (event: Event & { target: HTMLInputElement }) => filterMagnitude.value = event.target.value
 
+const route = useRoute()
+const selectMagnitudeRef = ref<HTMLSelectElement | null>(null)
 onNuxtReady(() => {
   if (window.location.protocol !== 'tauri:') {
     return
@@ -82,6 +84,14 @@ onNuxtReady(() => {
     e.preventDefault();
     return false;
   }, { capture: true })
+})
+watch(route, (val) => {
+  if (filterMagnitude.value !== "0") {
+    filterMagnitude.value = "0"
+    if (selectMagnitudeRef.value) {
+      selectMagnitudeRef.value.value = "0"
+    }
+  }
 })
 </script>
 
